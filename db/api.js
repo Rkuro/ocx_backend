@@ -17,7 +17,7 @@ api.update = async (db, collection, query, operations, options) => {
     try {
         return {
             status:ERROR_CODES.SUCCESS,
-            data: await mongo_client.db(db).collection(collection).findOneAndUpdate(payload, {upsert:true, ...options})
+            data: await mongo_client.db(db).collection(collection).findOneAndUpdate(query,operations, {upsert:true, ...options})
         }
     } catch (e) {
         return {
