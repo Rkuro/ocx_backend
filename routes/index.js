@@ -10,18 +10,23 @@ router.get('/', function(req, res, next) {
   	res.send(JSON.stringify({}));
 });
 
+const convertDbResponseToResult = (dbResponse) => {
+	
+}
 
 router.post('/email-signup', (req,res,next) => {
 
-	console.log("Received email signup with payload:",req.body);
+	console.log("Received email signup with payload:",req.body, typeof req.body)
 
-	const json = JSON.parse(req.body);
+	let json = req.body
 
-	assert(json.hasOwnProperty('emailAddress'));
-	assert(json.hasOwnProperty('firstName'));
-	assert(json.hasOwnProperty('lastName'));
+	assert(json.hasOwnProperty('emailAddress'))
+	assert(json.hasOwnProperty('firstName'))
+	assert(json.hasOwnProperty('lastName'))
 
-	let response = db.write("ocx","users",
+	console.log("Writing ")
+
+	let response = db.update("ocx","users",
 	{
 		emailAddress:json.emailAddress
 	}, 
@@ -29,7 +34,10 @@ router.post('/email-signup', (req,res,next) => {
 		"$set":json
 	}
 	);
-	
+
+	const response = {}
+
+	res.setHeader('Content-Type', 'application/json');
 	res.send(JSON.stringify(response))
 })
 
