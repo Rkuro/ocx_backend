@@ -3,7 +3,7 @@ const env = require('dotenv').config()
 const mongodb = require('mongodb')
 const ERROR_CODES = require('./error_codes')
 
-let mongo_client;
+var mongo_client;
 
 api.connect = async () => {
     try {
@@ -65,7 +65,9 @@ api.read = async (db, collection, payload) => {
 
 api.connect()
     .then(result => {
-        console.log("connected to mongodb")
+        
+        mongo_client = result
+        console.log("connected to mongodb",result)
     })
     .catch(err => {
         console.error(err)

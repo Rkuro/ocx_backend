@@ -37,13 +37,8 @@ router.post('/email-signup', (req,res,next) => {
 		.then(result => {
 			console.log("db_response",result)
 
-			const response = {
-				status:"success",
-				data:{}
-			}
-
 			res.setHeader('Content-Type', 'application/json');
-			res.send(JSON.stringify(response))
+			res.send(JSON.stringify(result))
 		})
 		.catch(err => {
 			console.error(err)
