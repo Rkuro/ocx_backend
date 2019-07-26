@@ -3,6 +3,7 @@ const AWS = require('aws-sdk');
 AWS.config.update({region: 'us-east-1'});
 const router = express.Router();
 const db = require('../db/api');
+const assert = require('assert');
 
 
 /* GET home page. */
@@ -20,7 +21,7 @@ router.post('/email-signup', (req,res,next) => {
 
 	let json = req.body
 
-	assert(json.hasOwnProperty('emailAddress'))
+	assert.equal(json.hasOwnProperty('emailAddress'),true)
 	assert(json.hasOwnProperty('firstName'))
 	assert(json.hasOwnProperty('lastName'))
 
