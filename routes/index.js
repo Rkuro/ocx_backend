@@ -27,24 +27,34 @@ router.post('/email-signup', (req,res,next) => {
 
 	console.log("Writing ")
 
-	let db_response = db.update("ocx","users",
-	{
-		emailAddress:json.emailAddress
-	}, 
-	{
-		"$set":json
-	}
-	);
+	db.update("ocx","users",
+		{
+			emailAddress:json.emailAddress
+		}, 
+		{
+			"$set":json
+		})
+		.then(result => {
+			console.log("db_response",result)
 
-	console.log("db_response",db_response)
+			const response = {
+				status:"success",
+				data:{}
+			}
 
-	const response = {
-		status:"success",
-		data:{}
-	}
+			res.setHeader('Content-Type', 'application/json');
+			res.send(JSON.stringify(response))
+		})
+		.catch(err => {
+			console.error(err)
+			res.setHeader('Content-Type', 'application/json');
+			res.send(JSON.stringify({
+				status:"error",
+				data:{}
+			}))
+		}) 
 
-	res.setHeader('Content-Type', 'application/json');
-	res.send(JSON.stringify(response))
+	
 })
 
 module.exports = router;
