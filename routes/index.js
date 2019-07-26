@@ -26,7 +26,7 @@ router.post('/email-signup', (req,res,next) => {
 
 	console.log("Writing ")
 
-	let response = db.update("ocx","users",
+	let db_response = db.update("ocx","users",
 	{
 		emailAddress:json.emailAddress
 	}, 
@@ -35,7 +35,12 @@ router.post('/email-signup', (req,res,next) => {
 	}
 	);
 
-	const response = {}
+	console.log("db_response",db_response)
+
+	const response = {
+		status:"success",
+		data:{}
+	}
 
 	res.setHeader('Content-Type', 'application/json');
 	res.send(JSON.stringify(response))
