@@ -7,11 +7,11 @@ const db = require('../db/api');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  	res.render('index', { title: 'Express' });
+  	res.send(JSON.stringify({}));
 });
 
 
-router.get('/email-signup', (req,res,next) => {
+router.post('/email-signup', (req,res,next) => {
 
 	console.log("Received email signup with payload:",req.body);
 
