@@ -8,4 +8,4 @@ app.get('/', (req, res) => {
     res.send('Express/Nginx/Certbot tutorial');
 });
 
-app.listen(80);
+app.listen(3000);
