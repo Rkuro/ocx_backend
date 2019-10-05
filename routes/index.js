@@ -42,7 +42,7 @@ router.post('/email-signup', (req,res,next) => {
 const handleEmailSignup = async (json_payload) => {
 
 	// Construct sender
-	const email_sender = new Email()
+	const email_sender = new email()
 
 	let promises = []
 
