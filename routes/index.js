@@ -17,9 +17,6 @@ const convertDbResponseToResult = (dbResponse) => {
 
 router.post('/email-signup', (req,res,next) => {
 
-	// Construct sender
-	const email_sender = new Email()
-
 	console.log("Received email signup with payload:",req.body, typeof req.body)
 
 	let json = req.body
@@ -30,37 +27,49 @@ router.post('/email-signup', (req,res,next) => {
 
 	console.log("Writing ")
 
-	db.update("ocx","users",
-		{
-			emailAddress:json.emailAddress
-		}, 
-		{
-			"$set":json
-		})
-		.then(result => {
-			console.log("db_response",result)
-
-			res.setHeader('Content-Type', 'application/json');
-			res.send(JSON.stringify(result))
+	handleEmailSignup(json)
+		.then(resp => {
+			console.log("success:",resp)
+			res.send(JSON.stringify(resp))
 		})
 		.catch(err => {
 			console.error(err)
-			res.setHeader('Content-Type', 'application/json');
-			res.send(JSON.stringify({
-				status:"error",
-				data:{}
-			}))
-		})
-
-	email_sender.sendEmail(json.emailAddress)
-		.then(result => {
-			console.log("Successfully sent email to ", json.emailAddress)
-		})
-		.catch(err => {
-			console.error('Error sending email: ',err)
 		})
 
 	
 })
+
+const handleEmailSignup = async (json_payload) => {
+
+	// Construct sender
+	const email_sender = new Email()
+
+	let promises = []
+
+	let db_promise = db.update("ocx","users",
+		{
+			emailAddress:json_payload.emailAddress
+		}, 
+		{
+			"$set":json_payload
+		})
+
+	let email_promise = email_sender.sendEmailSignupResponse(json_payload.emailAddress)
+
+	promises.push(db_promise)
+	promises.push(email_promise)
+
+	await Promise.all(promises)
+		.then(results => {
+			return results
+		})
+		.catch(err => {
+			console.error("Email signup error",err)
+			throw err
+		})
+
+	
+	
+}
 
 module.exports = router;

@@ -6,7 +6,10 @@ AWS.config.update({region: 'us-east-1'});
 
 class Email {
 
-    sendEmail (email_address)  {
+    sendEmailSignupResponse (email_address)  {
+
+        console.log("Sending Email Signup Response to ", email_address)
+
         // test an email templact
         let params = {
             Destination: { /* required */

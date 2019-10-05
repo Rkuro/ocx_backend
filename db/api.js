@@ -67,7 +67,7 @@ api.connect()
     .then(result => {
         
         mongo_client = result
-        console.log("connected to mongodb",result)
+        console.log("connected to mongodb")
     })
     .catch(err => {
         console.error(err)
