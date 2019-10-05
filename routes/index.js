@@ -4,7 +4,7 @@ AWS.config.update({region: 'us-east-1'});
 const router = express.Router();
 const db = require('../db/api');
 const assert = require('assert');
-
+const email = require('../src/email/email')
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -16,6 +16,9 @@ const convertDbResponseToResult = (dbResponse) => {
 }
 
 router.post('/email-signup', (req,res,next) => {
+
+	// Construct sender
+	const email_sender = new Email()
 
 	console.log("Received email signup with payload:",req.body, typeof req.body)
 
@@ -47,7 +50,15 @@ router.post('/email-signup', (req,res,next) => {
 				status:"error",
 				data:{}
 			}))
-		}) 
+		})
+
+	email_sender.sendEmail(json.emailAddress)
+		.then(result => {
+			console.log("Successfully sent email to ", json.emailAddress)
+		})
+		.catch(err => {
+			console.error('Error sending email: ',err)
+		})
 
 	
 })
