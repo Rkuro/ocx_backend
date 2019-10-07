@@ -48,12 +48,21 @@ const handleEmailSignup = async (json_payload) => {
 
 	let promises = []
 
+
+
 	let db_promise = db.update("ocx","users",
 		{
 			emailAddress:json_payload.emailAddress
 		}, 
 		{
-			"$set":json_payload
+			"$set": {
+				emailAddress:json_payload.emailAddress,
+				firstName:json_payload.firstName,
+				lastName:json_payload.lastName,
+				message:json_payload.message,
+				unsubscribed:json_payload.unsubscribed,
+				verified:json_payload.verified
+			}
 		})
 
 	let email_promise = email_sender.sendEmailSignupResponse(json_payload.emailAddress)
