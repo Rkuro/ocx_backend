@@ -4,7 +4,9 @@ AWS.config.update({region: 'us-east-1'});
 const router = express.Router();
 const db = require('../db/api');
 const assert = require('assert');
-const email = require('../src/email/email')
+const email = require('../src/email/email');
+
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
